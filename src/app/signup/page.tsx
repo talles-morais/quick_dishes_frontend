@@ -2,10 +2,12 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
 import * as yup from "yup"
 
 import InputField from "@/components/InputField";
-import { yupResolver } from "@hookform/resolvers/yup";
+import api from "@/services/api";
 
 type Restaurant = {
   cnpj: string,
@@ -52,12 +54,31 @@ export default function signup() {
     resolver: yupResolver<Restaurant>(restaurantSchema)
   })
 
+  const mutation = useMutation({
+    mutationFn: async (data: Restaurant) => {
+      const response = await api.post("/signup", data)
+      return response.data
+    },
+    onSuccess: () => {
+      console.log("user succesfully created");
+    },
+    onError: (error) => {
+      console.error("error creating user: ", error)
+    }
+  })
+
   const onSubmit: SubmitHandler<Restaurant> = (data) => {
-    console.log(data);
+    const cleanedData = {
+      ...data,
+      cnpj: data.cnpj.replace(/[^\d]/g, ""),
+      phone: data.phone.replace(/[^\d]/g, "")
+    }
+    mutation.mutate(cleanedData)
   }
 
   const fields = [
     { name: "cnpj", label: "CNPJ:", type: "text", placeholder: "00.000.000/0000-00", mask: "99.999.999/9999-99" },
+    { name: "name", label: "Nome:", type: "text", placeholder: "Restaurante Demais" },
     { name: "email", label: "E-mail:", type: "email", placeholder: "nome123@email.com" },
     { name: "address", label: "Endereço:", type: "text", placeholder: "Rua Abreu, 222, Itajubá - MG" },
     { name: "phone", label: "Telefone:", type: "tel", placeholder: "(00) 99999-9999", mask: "(99) 99999-9999" },
