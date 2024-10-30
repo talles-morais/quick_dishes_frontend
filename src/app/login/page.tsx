@@ -9,7 +9,7 @@ import * as yup from "yup"
 import InputField from "@/components/InputField";
 import api from "@/services/api";
 
-type LoginInput = {
+type RestaurantLoginCredentials = {
   cnpj: string,
   password: string,
 }
@@ -30,13 +30,13 @@ export default function login() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginInput>({
+  } = useForm<RestaurantLoginCredentials>({
     mode: "onSubmit",
-    resolver: yupResolver<LoginInput>(restaurantSchema)
+    resolver: yupResolver<RestaurantLoginCredentials>(restaurantSchema)
   })
 
   const mutation = useMutation({
-    mutationFn: async (data: LoginInput) => {
+    mutationFn: async (data: RestaurantLoginCredentials) => {
       const response = await api.post("/login", data)
       return response.data
     },
@@ -48,7 +48,7 @@ export default function login() {
     }
   })
 
-  const onSubmit: SubmitHandler<LoginInput> = (data) => {
+  const onSubmit: SubmitHandler<RestaurantLoginCredentials> = (data) => {
     const cleanedData = {
       ...data,
       cnpj: data.cnpj.replace(/[^\d]/g, ""),
@@ -85,7 +85,7 @@ export default function login() {
                 register={register}
                 mask={mask}
               />
-              {errors[name as keyof LoginInput] && <p className="text-red-500 text-[8px] font-bold word-wrap max-w-[150px]">{errors[name as keyof LoginInput]?.message}</p>}
+              {errors[name as keyof RestaurantLoginCredentials] && <p className="text-red-500 text-[8px] font-bold word-wrap max-w-[150px]">{errors[name as keyof RestaurantLoginCredentials]?.message}</p>}
             </div>
           ))}
 
