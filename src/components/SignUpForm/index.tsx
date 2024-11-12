@@ -8,6 +8,7 @@ import api from "@/services/api";
 
 type Restaurant = {
   cnpj: string;
+  name: string;
   email: string;
   address: string;
   phone: string;
@@ -20,6 +21,9 @@ const restaurantSchema = yup.object().shape({
     .string()
     .required("Campo obrigatório")
     .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, { message: "CNPJ inválido" }),
+  name: yup
+    .string()
+    .required("Campo obrigatório"),
   email: yup
     .string()
     .email("E-mail inválido")
