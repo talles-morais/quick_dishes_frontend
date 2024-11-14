@@ -14,9 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <QueryClientProvider>
-      <html lang="pt-br">
-        <body className="bg-dark">{children}</body>
-      </html>
+        <html lang="pt-br">
+          <body className="bg-dark">{children}</body>
+        </html>
     </QueryClientProvider>
   );
 }

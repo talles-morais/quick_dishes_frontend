@@ -2,6 +2,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import * as yup from "yup"
 
 import InputField from "@/components/InputField";
@@ -24,6 +25,7 @@ const restaurantSchema = yup.object().shape({
 })
 
 export default function LoginForm() {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -35,11 +37,14 @@ export default function LoginForm() {
 
   const mutation = useMutation({
     mutationFn: async (data: RestaurantLoginCredentials) => {
-      const response = await api.post("/login", data)
+      const response = await api.post("/login", data, {
+        withCredentials: true
+      })
       return response.data
     },
     onSuccess: () => {
-      console.log("user succesfully logged");
+      console.log("user succesfully logged")
+      router.push("/dashboard")
     },
     onError: (error) => {
       console.error("error logging user: ", error)
@@ -56,7 +61,7 @@ export default function LoginForm() {
 
   const fields = [
     { name: "cnpj", label: "CNPJ:", type: "text", placeholder: "00.000.000/0000-00", mask: "99.999.999/9999-99" },
-    { name: "password", label: "Senha:", type: "password", placeholder: "Crie uma senha forte" },
+    { name: "password", label: "Senha:", type: "password", placeholder: "Digite sua senha" },
   ]
 
   return (
