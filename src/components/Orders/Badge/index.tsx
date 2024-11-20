@@ -1,8 +1,8 @@
-type OrderStatusProps = {
+export type OrderStatusProps = {
   status: "pending" | "preparing" | "prepared" | "in_route" | "completed" | "canceled";
 };
 
-const statusStyles: Record<OrderStatusProps["status"], string> = {
+const statusStyles: Record<string, string> = {
   pending: "bg-bd_pending",
   preparing: "bg-bd_preparing",
   prepared: "bg-bd_prepared",
@@ -11,19 +11,19 @@ const statusStyles: Record<OrderStatusProps["status"], string> = {
   canceled: "bg-bd_canceled",
 };
 
-const statusLabels: Record<OrderStatusProps["status"], string> = {
+const statusLabels: Record<string, string> = {
   pending: "Pendente",
   preparing: "Preparando",
   prepared: "Pronto",
   in_route: "Em rota",
-  completed: "Finalizado",
+  completed: "Completo",
   canceled: "Cancelado",
 }
 
-export default function Badge({ status }: OrderStatusProps) {
+export default function Badge({status}: OrderStatusProps) {
   return (
-    <td className={`${statusStyles[status]} py-1 px-4 rounded-lg`}>
+    <div className={`${statusStyles[status]} text-center py-1 px-4 rounded-lg w-[88px]`}>
       {statusLabels[status]}
-    </td>
+    </div>
   );
 }
