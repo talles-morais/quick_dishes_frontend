@@ -5,6 +5,7 @@ import { Order } from "@/utils/types/order";
 import OrderRow from "../OrderRow";
 import api from "@/services/api";
 import { OrderStatusProps } from "../Badge";
+import { Client } from "@/utils/types/client";
 
 export default function OrderList() {
   const {
@@ -45,11 +46,12 @@ export default function OrderList() {
             <td colSpan={3}>Erro ao carregar pedidos...</td>
           </tr>
         )}
-        {orderList.map((order: { order_id: string; status: string }) => {
+        {orderList.map((order: { order_id: string; client: Client; status: string }) => {
           return (
             <OrderRow
               key={order.order_id}
               Status={order.status as OrderStatusProps["status"]}
+              Client={order.client}
               OrderID={order.order_id}
             />
           );
