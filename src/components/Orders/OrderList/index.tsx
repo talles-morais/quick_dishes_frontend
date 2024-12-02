@@ -20,8 +20,8 @@ export default function OrderList() {
     queryKey: ["orders"],
     queryFn: async () => {
       const response = await api.get("/orders");
-      return response.data; 
-    }
+      return response.data;
+    },
   });
 
   useEffect(() => {
@@ -32,14 +32,14 @@ export default function OrderList() {
 
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080/ws");
-    
+
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log("Dados recebidos pelo WebSocket:", data);
 
       if (data.action === "delete") {
         // Remover o pedido da lista
-        
+
         setOrders((prevOrders) =>
           prevOrders.filter((order) => order.order_id !== data.order.order_id)
         );
@@ -66,36 +66,40 @@ export default function OrderList() {
   }
 
   return (
-    <table className="flex flex-col w-full">
-      <thead>
-        <tr className="flex justify-around text-xs pt-3">
-          <th>Id</th>
-          <th>Cliente</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody className="flex flex-col gap-3">
-        {isLoading && (
-          <tr>
-            <td colSpan={3}>Carregando...</td>
+    <div className="bg-second_dark rounded-lg border-white border py-3 px-7 mt-6">
+      <table className="flex flex-col w-full">
+        <thead>
+          <tr className="flex justify-around text-xs pt-3">
+            <th>Id</th>
+            <th>Cliente</th>
+            <th>Status</th>
           </tr>
-        )}
-        {isError && (
-          <tr>
-            <td colSpan={3}>Erro ao carregar pedidos...</td>
-          </tr>
-        )}
-        {orders.map((order: { order_id: string; client: Client; status: string }) => {
-          return (
-            <OrderRow
-              key={order.order_id}
-              Status={order.status as OrderStatusProps["status"]}
-              Client={order.client}
-              OrderID={order.order_id}
-            />
-          );
-        })}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="flex flex-col gap-3">
+          {isLoading && (
+            <tr>
+              <td colSpan={3}>Carregando...</td>
+            </tr>
+          )}
+          {isError && (
+            <tr>
+              <td colSpan={3}>Erro ao carregar pedidos...</td>
+            </tr>
+          )}
+          {orders.map(
+            (order: { order_id: string; client: Client; status: string }) => {
+              return (
+                <OrderRow
+                  key={order.order_id}
+                  Status={order.status as OrderStatusProps["status"]}
+                  Client={order.client}
+                  OrderID={order.order_id}
+                />
+              );
+            }
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }

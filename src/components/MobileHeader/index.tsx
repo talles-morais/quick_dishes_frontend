@@ -2,7 +2,7 @@ import Image  from "next/image"
 
 export default function MobileHeader() {
   return (
-    <div className="w-screen">
+    <div className="w-screen md:hidden">
       <div className="flex justify-between w-full py-3 px-4 bg-second_dark">
         <Image
           src="/icons/hamburger.svg"

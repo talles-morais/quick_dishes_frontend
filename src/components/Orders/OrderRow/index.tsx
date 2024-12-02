@@ -11,7 +11,7 @@ export default function OrderRow({ OrderID, Client, Status }: OrderRowProps) {
   // console.log(Client);
   
   return (
-    <tr className="flex items-center justify-around text-xs py-2.5 rounded-lg bg-second_dark">
+    <tr className="flex items-center justify-around text-xs py-2.5 rounded-lg bg-second_dark md:bg-dark">
       <td>{OrderID}</td>
       <td>{Client.name}</td>
       <Badge status={Status}/>
