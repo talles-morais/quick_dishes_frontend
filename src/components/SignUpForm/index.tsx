@@ -88,7 +88,7 @@ export default function SignupForm() {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full">
       {fields.map(({ name, label, type, placeholder, mask }) => (
         <div key={name}>
           <InputField
@@ -104,7 +104,7 @@ export default function SignupForm() {
           )}
         </div>
       ))}
-      <button className="py-2 bg-primary text-xs text-white font-bold rounded-xl hover:scale-105 transition-all" type="submit">Criar conta</button>
+      <button className="py-2 bg-primary text-xs md:text-lg text-white font-bold rounded-xl hover:scale-105 transition-all" type="submit">Criar conta</button>
     </form>
   );
 }

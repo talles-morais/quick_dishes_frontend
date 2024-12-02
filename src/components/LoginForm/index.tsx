@@ -44,7 +44,7 @@ export default function LoginForm() {
     },
     onSuccess: () => {
       console.log("user succesfully logged")
-      router.push("/dashboard")
+      router.push("/orders")
     },
     onError: (error) => {
       console.error("error logging user: ", error)
@@ -65,9 +65,9 @@ export default function LoginForm() {
   ]
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full items-center">
       {fields.map(({ name, label, type, placeholder, mask }) => (
-        <div key={name}>
+        <div key={name} className="w-full">
           <InputField
             name={name}
             label={label}
@@ -80,8 +80,8 @@ export default function LoginForm() {
         </div>
       ))}
 
-      <a className="text-white text-[8px] font-light underline hover:scale-105 transition-all">Esqueci minha senha :(</a>
-      <button className="py-2 bg-primary text-xs text-white font-bold rounded-xl hover:scale-105 transition-all" type="submit">Fazer login</button>
+      {/* <a className="text-white text-[8px] font-light underline hover:scale-105 transition-all">Esqueci minha senha :(</a> */}
+      <button className="py-2 bg-primary text-xs md:text-lg text-white font-bold rounded-xl hover:scale-105 transition-all w-full" type="submit">Fazer login</button>
 
     </form>
   )

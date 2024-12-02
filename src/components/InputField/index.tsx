@@ -12,11 +12,11 @@ type InputProps = {
 
 export default function InputField({ name, label, placeholder, type, register, mask }: InputProps) {
   return (
-    <div className="flex flex-col gap-1 items-start">
-      <label className="text-white text-xs" htmlFor={name}>{label}</label>
+    <div className="flex flex-col gap-1 items-start w-full">
+      <label className="text-white text-xs md:text-lg" htmlFor={name}>{label}</label>
       {mask ? (
         <InputMask
-          className="px-2 py-1.5 text-xs rounded-xl outline-none focus:outline-primary focus:outline-2"
+          className="px-2 py-1.5 text-xs md:text-base rounded-xl outline-none focus:outline-primary focus:outline-2 w-full"
           mask={mask}
           {...register(name)}
           placeholder={placeholder}
@@ -25,7 +25,7 @@ export default function InputField({ name, label, placeholder, type, register, m
         />
       ) : (
         <input
-          className="px-2 py-1.5 text-xs rounded-xl outline-none focus:outline-primary focus:outline-2"
+          className="px-2 py-1.5 text-xs md:text-base rounded-xl outline-none focus:outline-primary focus:outline-2 w-full"
           {...register(name)}
           placeholder={placeholder}
           type={type}
