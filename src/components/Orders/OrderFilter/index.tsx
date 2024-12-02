@@ -9,11 +9,12 @@ export default function OrderFilter() {
           width={20}
           height={20}
           alt="Ícone de Calendário"
+          className="md:w-8 "
         />
       </button>
 
       <div className="flex text-xs items-center gap-2">
-        <p>Dia Atual:</p>
+        <p className="md:text-xl">Dia Atual:</p>
         <div className="flex items-center justify-evenly bg-second_dark rounded-lg">
           <button className="py-1 px-2">
             <Image
@@ -21,9 +22,10 @@ export default function OrderFilter() {
               width={20}
               height={20}
               alt="Ícone de seta para esquerda"
+              className="md:w-8 "
             />
           </button>
-          <span>
+          <span className="md:text-xl">
             05/10
           </span>
           <button className="py-1 px-2">
@@ -32,6 +34,7 @@ export default function OrderFilter() {
               width={20}
               height={20}
               alt="Ícone de seta para direita"
+              className="md:w-8 "
             />
           </button>
         </div>

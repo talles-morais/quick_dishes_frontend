@@ -16,6 +16,7 @@ export default function SearchAndFilter() {
             width={20}
             height={20}
             alt="Ícone de busca"
+            className="md:w-8"
           />
         </div>
         <button className="bg-second_dark py-1 px-1.5 rounded-lg hover:scale-110 transition-all">
@@ -24,6 +25,7 @@ export default function SearchAndFilter() {
             width={20}
             height={20}
             alt="Ícone de filtro"
+            className="md:w-8"
           />
         </button>
       </div>
