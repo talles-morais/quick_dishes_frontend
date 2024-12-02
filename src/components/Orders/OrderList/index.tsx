@@ -1,6 +1,7 @@
 "use client";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Key, useState } from "react";
+
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Order } from "@/utils/types/order";
 import OrderRow from "../OrderRow";
 import api from "@/services/api";
@@ -8,6 +9,8 @@ import { OrderStatusProps } from "../Badge";
 import { Client } from "@/utils/types/client";
 
 export default function OrderList() {
+  const [orders, setOrders] = useState<Order[]>([]);
+
   const {
     data: orderList = [],
     isLoading,
@@ -17,13 +20,49 @@ export default function OrderList() {
     queryKey: ["orders"],
     queryFn: async () => {
       const response = await api.get("/orders");
-
-      return response.data;
-    },
+      return response.data; 
+    }
   });
+
+  useEffect(() => {
+    if (orderList.length > 0) {
+      setOrders(orderList);
+    }
+  }, [orderList]);
+
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8080/ws");
+    
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Dados recebidos pelo WebSocket:", data);
+
+      if (data.action === "delete") {
+        // Remover o pedido da lista
+        
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.order_id !== data.order.order_id)
+        );
+      } else if (data.action === "create") {
+        // Adicionar novo pedido
+        setOrders((prevOrders) => [...prevOrders, data.order]);
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    return () => socket.close();
+  }, []);
+
+  if (isLoading) {
+    return <div>Carregando pedidos...</div>;
+  }
 
   if (isError) {
     console.error("Error fetching orders: ", error);
+    return <div>Erro ao carregar pedidos. Tente novamente mais tarde.</div>;
   }
 
   return (
@@ -46,7 +85,7 @@ export default function OrderList() {
             <td colSpan={3}>Erro ao carregar pedidos...</td>
           </tr>
         )}
-        {orderList.map((order: { order_id: string; client: Client; status: string }) => {
+        {orders.map((order: { order_id: string; client: Client; status: string }) => {
           return (
             <OrderRow
               key={order.order_id}

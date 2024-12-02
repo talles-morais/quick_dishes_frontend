@@ -8,7 +8,7 @@ type OrderRowProps = {
 };
 
 export default function OrderRow({ OrderID, Client, Status }: OrderRowProps) {
-  console.log(Client);
+  // console.log(Client);
   
   return (
     <tr className="flex items-center justify-around text-xs py-2.5 rounded-lg bg-second_dark">
