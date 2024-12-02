@@ -19,7 +19,10 @@ export default function OrderList() {
   } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
-      const response = await api.get("/orders");
+      const userAuth = await api.get("/restaurant")
+      const id = userAuth.data.restaurant.cnpj
+      
+      const response = await api.get(`/orders/${id}`);
       return response.data;
     },
   });
